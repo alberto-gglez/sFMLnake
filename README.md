@@ -2,14 +2,14 @@ sFMLnake
 ========
 
 Snake clone made with SFML 2
-by Alberto García
 
-Controls:
+Controls
+========
+Arrow keys: Move the snake<br/>Space: Add piece of body (only on beta)
 
-Arrow keys: Move the snakeSpace: Add piece of body (only on beta)
-
-ToDo:
-    - Sound and music
-    - Collisions
-    - Snake "food"?
-    - Score
+ToDo
+========
+Sound and music<br/>
+Collisions<br/>
+Snake "food"?<br/>
+Score
