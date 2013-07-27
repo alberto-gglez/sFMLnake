@@ -12,7 +12,7 @@
 */
 
 Snake::Snake()
-    : window(sf::VideoMode(800,600), "sFMLnake"), player(5, 5)
+    : window(sf::VideoMode(640, 480), "sFMLnake"), player(20, 20)
 {
     window.setFramerateLimit(60u);
 }
@@ -30,13 +30,13 @@ void Snake::run() {
                 window.close();
             if(event.type == sf::Event::KeyPressed) {
                 if(event.key.code == sf::Keyboard::Up)
-                    player.setDirection(Pj::Directions::UP);
+                    player.setDirection(Pj::Direction::UP);
                 if(event.key.code == sf::Keyboard::Right)
-                    player.setDirection(Pj::Directions::RIGHT);
+                    player.setDirection(Pj::Direction::RIGHT);
                 if(event.key.code == sf::Keyboard::Left)
-                    player.setDirection(Pj::Directions::LEFT);
+                    player.setDirection(Pj::Direction::LEFT);
                 if(event.key.code == sf::Keyboard::Down)
-                    player.setDirection(Pj::Directions::DOWN);
+                    player.setDirection(Pj::Direction::DOWN);
                // for testing
                 if(event.key.code == sf::Keyboard::Space)
                     player.grow();

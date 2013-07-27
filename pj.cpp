@@ -19,26 +19,46 @@ void Pj::update() {
 
 void Pj::moveUp() {
     BodyPiece head = body.front();
+
+    head.coords().y -= 20;
+    if(head.coords().y < 0)
+        head.coords().y = 460;
+
+    body.push_front(head);
     body.pop_back();
-    body.push_front(BodyPiece(head.coords().x, head.coords().y - 20));
 }
 
 void Pj::moveRight() {
     BodyPiece head = body.front();
+
+    head.coords().x += 20;
+    if(head.coords().x > 620)
+        head.coords().x = 0;
+
+    body.push_front(head);
     body.pop_back();
-    body.push_front(BodyPiece(head.coords().x + 20, head.coords().y));
 }
 
 void Pj::moveLeft() {
     BodyPiece head = body.front();
+
+    head.coords().x -= 20;
+    if(head.coords().x < 0)
+        head.coords().x = 620;
+
+    body.push_front(head);
     body.pop_back();
-    body.push_front(BodyPiece(head.coords().x - 20, head.coords().y));
 }
 
 void Pj::moveDown() {
     BodyPiece head = body.front();
+
+    head.coords().y += 20;
+    if(head.coords().y > 460)
+        head.coords().y = 0;
+
+    body.push_front(head);
     body.pop_back();
-    body.push_front(BodyPiece(head.coords().x, head.coords().y + 20));
 }
 
 void Pj::draw(sf::RenderWindow& window) const {

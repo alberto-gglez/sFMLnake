@@ -5,7 +5,18 @@
 #include <deque>
 
 class Pj {
+    class BodyPiece;
 public:
+    typedef std::deque<BodyPiece> Body;
+    enum Direction {UP, RIGHT, LEFT, DOWN};
+
+    Pj(int x, int y);
+    void update();
+    const Body& getBody() const;
+    void draw(sf::RenderWindow& window) const;
+    void setDirection(const Direction& dir);
+    void grow();
+private:
     class BodyPiece {
     public:
         BodyPiece(int x, int y);
@@ -15,17 +26,7 @@ public:
         sf::Vector2i _coords;
     };
 
-    typedef std::deque<BodyPiece> Body;
-    enum Directions {UP, RIGHT, LEFT, DOWN};
-
-    Pj(int x, int y);
-    void update();
-    const Body& getBody() const;
-    void draw(sf::RenderWindow& window) const;
-    void setDirection(const Directions& dir);
-    void grow();
-private:
-    Directions direction;
+    Direction direction;
     Body body;
 
     void moveUp();
@@ -39,7 +40,7 @@ inline const sf::Vector2i& Pj::BodyPiece::coords() const { return _coords; }
 inline       sf::Vector2i& Pj::BodyPiece::coords()       { return _coords; }
 
 inline const Pj::Body& Pj::getBody() const { return body; }
-inline void  Pj::setDirection(const Directions& dir) {
+inline void  Pj::setDirection(const Direction& dir) {
     direction = dir;
 }
 
