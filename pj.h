@@ -6,6 +6,7 @@
 #include "globals.h"
 
 class Food;
+class Score;
 
 class Pj {
     class BodyPiece;
@@ -16,11 +17,12 @@ public:
     Pj(int x = BPIECE, int y = BPIECE);
 
     void readInput(const sf::Event& event);
-    void update(Food& food);
+    void update(Food& food, Score& score);
     const Body& getBody() const;
     void draw(sf::RenderWindow& window) const;
     void setDirection(const Direction& dir);
     void grow();
+    bool checkCollisions(const BodyPiece& bp) const;
 private:
     class BodyPiece {
     public:

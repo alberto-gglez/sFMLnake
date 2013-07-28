@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 #include "pj.h"
 #include "food.h"
+#include "score.h"
 
 class Snake {
 public:
@@ -15,6 +16,7 @@ private:
     Pj player;
     FoodManager foodMan;
     sf::Music music;
+    Score score;
 };
 
 #endif

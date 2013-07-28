@@ -3,8 +3,7 @@
     by Alberto García
 
     ToDo:
-        - Collisions
-        - Score
+        - Death
         - Victory condition
 */
 
@@ -43,8 +42,8 @@ void Snake::run() {
         }
 
         // logic
-        if(t.asSeconds() >= 0.4f) {
-            player.update(food);
+        if(t.asSeconds() >= 0.44f) {
+            player.update(food, score);
             clock.restart();
         }
 
@@ -56,6 +55,7 @@ void Snake::run() {
 
         player.draw(window);
         food.draw(window);
+        window.draw(score.getText());
 
         window.display();
     }

@@ -1,5 +1,6 @@
 #include "pj.h"
 #include "food.h"
+#include "score.h"
 
 Pj::Pj(int x, int y)
     : direction(RIGHT)
@@ -25,7 +26,7 @@ void Pj::readInput(const sf::Event& event) {
     }
 }
 
-void Pj::update(Food& food) {
+void Pj::update(Food& food, Score& score) {
     switch(direction) {
         case UP:    moveUp();    break;
         case RIGHT: moveRight(); break;
@@ -35,6 +36,7 @@ void Pj::update(Food& food) {
 
     if(body.front().coords() == food.coords()) {
         food.eat();
+        score.addPoint();
         grow();
     }
 }
@@ -46,8 +48,10 @@ void Pj::moveUp() {
     if(head.coords().y < 0)
         head.coords().y = HEIGHT - BPIECE;
 
-    body.push_front(head);
-    body.pop_back();
+    if(!checkCollisions(head)) {
+        body.push_front(head);
+        body.pop_back();
+    }
 }
 
 void Pj::moveRight() {
@@ -57,8 +61,10 @@ void Pj::moveRight() {
     if(head.coords().x > WIDTH - BPIECE)
         head.coords().x = 0;
 
-    body.push_front(head);
-    body.pop_back();
+    if(!checkCollisions(head)) {
+        body.push_front(head);
+        body.pop_back();
+    }
 }
 
 void Pj::moveLeft() {
@@ -68,8 +74,10 @@ void Pj::moveLeft() {
     if(head.coords().x < 0)
         head.coords().x = WIDTH - BPIECE;
 
-    body.push_front(head);
-    body.pop_back();
+    if(!checkCollisions(head)) {
+        body.push_front(head);
+        body.pop_back();
+    }
 }
 
 void Pj::moveDown() {
@@ -79,8 +87,10 @@ void Pj::moveDown() {
     if(head.coords().y > HEIGHT - BPIECE)
         head.coords().y = 0;
 
-    body.push_front(head);
-    body.pop_back();
+    if(!checkCollisions(head)) {
+        body.push_front(head);
+        body.pop_back();
+    }
 }
 
 void Pj::draw(sf::RenderWindow& window) const {
@@ -88,11 +98,12 @@ void Pj::draw(sf::RenderWindow& window) const {
     piece.setSize(sf::Vector2f(BPIECE, BPIECE));
     sf::Color color;
     int aux = 0;
+    static const int maxBodyPieces = (WIDTH / BPIECE) * (HEIGHT / BPIECE);
 
     for(auto& i: body) {
         color.r = color.g = color.b = 255 - aux;
         piece.setFillColor(color);
-        if(aux < (WIDTH / BPIECE) * (HEIGHT / BPIECE))
+        if(aux < maxBodyPieces)
             aux++;
         piece.setPosition(i.coords().x, i.coords().y);
         window.draw(piece);
@@ -100,6 +111,16 @@ void Pj::draw(sf::RenderWindow& window) const {
 }
 
 void Pj::grow() {
-    BodyPiece p = body.back();
-    body.push_back(BodyPiece(p.coords().x, p.coords().y));
+    body.push_back(body.back());
+}
+
+bool Pj::checkCollisions(const BodyPiece& bp) const {
+    for(unsigned int i = 1; i < body.size(); ++i) {
+        sf::Rect<int> r1(bp.coords().x, bp.coords().y, BPIECE, BPIECE),
+                      r2(body[i].coords().x, body[i].coords().y, BPIECE, BPIECE);
+        if(r1.intersects(r2))
+            return true;
+    }
+
+    return false;
 }
