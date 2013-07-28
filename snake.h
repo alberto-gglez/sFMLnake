@@ -13,7 +13,7 @@ public:
 private:
     sf::RenderWindow window;
     Pj player;
-    FoodGenerator foodgen;
+    FoodManager foodMan;
     sf::Music music;
 };
 

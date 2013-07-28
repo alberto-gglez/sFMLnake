@@ -27,14 +27,14 @@ inline bool Food::eaten() const { return _eaten; }
 inline const sf::Vector2i& Food::coords() const { return _coords; }
 inline       sf::Vector2i& Food::coords()       { return _coords; }
 
-class FoodGenerator {
+class FoodManager {
 public:
-    FoodGenerator(const Pj& pj);
+    FoodManager(const Pj& pj);
     void moveFood(Food& food) const;
 private:
     const Pj* player;
 };
 
-inline FoodGenerator::FoodGenerator(const Pj& pj) : player(&pj) {}
+inline FoodManager::FoodManager(const Pj& pj) : player(&pj) {}
 
 #endif

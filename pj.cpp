@@ -86,9 +86,14 @@ void Pj::moveDown() {
 void Pj::draw(sf::RenderWindow& window) const {
     sf::RectangleShape piece;
     piece.setSize(sf::Vector2f(BPIECE, BPIECE));
-    piece.setFillColor(sf::Color::White);
+    sf::Color color;
+    int aux = 0;
 
     for(auto& i: body) {
+        color.r = color.g = color.b = 255 - aux;
+        piece.setFillColor(color);
+        if(aux < (WIDTH / BPIECE) * (HEIGHT / BPIECE))
+            aux++;
         piece.setPosition(i.coords().x, i.coords().y);
         window.draw(piece);
     }

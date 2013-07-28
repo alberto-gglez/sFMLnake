@@ -5,6 +5,7 @@
     ToDo:
         - Collisions
         - Score
+        - Victory condition
 */
 
 #include "globals.h"
@@ -13,7 +14,7 @@
 #include <cstdlib>
 
 Snake::Snake()
-    : window(sf::VideoMode(WIDTH, HEIGHT), "sFMLnake"), foodgen(player)
+    : window(sf::VideoMode(WIDTH, HEIGHT), "sFMLnake"), foodMan(player)
 {
     window.setFramerateLimit(60u);
     std::srand(std::time(nullptr));
@@ -23,11 +24,11 @@ Snake::Snake()
 void Snake::run() {
     sf::Clock clock;
     Food food;
-    foodgen.moveFood(food);
+    foodMan.moveFood(food);
 
     music.setLoop(true);
     music.setVolume(50.f);
-    music.play();
+    //music.play();
 
     while(window.isOpen()) {
         sf::Time t = clock.getElapsedTime();
@@ -48,7 +49,7 @@ void Snake::run() {
         }
 
         if(food.eaten())
-            foodgen.moveFood(food);
+            foodMan.moveFood(food);
 
         // output
         window.clear(sf::Color::Green);

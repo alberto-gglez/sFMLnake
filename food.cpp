@@ -11,7 +11,7 @@ Food::Food(int x, int y)
 
 void Food::eat() {
     _eaten = true;
-    biteSound.play();
+    //biteSound.play();
 }
 
 void Food::draw(sf::RenderWindow& window) const {
@@ -25,7 +25,7 @@ void Food::draw(sf::RenderWindow& window) const {
     }
 }
 
-void FoodGenerator::moveFood(Food& food) const {
+void FoodManager::moveFood(Food& food) const {
     bool ok;
     food.refresh();
 
