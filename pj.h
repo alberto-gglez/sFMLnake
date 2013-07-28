@@ -3,6 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include <deque>
+#include "globals.h"
+
+class Food;
 
 class Pj {
     class BodyPiece;
@@ -10,8 +13,10 @@ public:
     typedef std::deque<BodyPiece> Body;
     enum Direction {UP, RIGHT, LEFT, DOWN};
 
-    Pj(int x, int y);
-    void update();
+    Pj(int x = BPIECE, int y = BPIECE);
+
+    void readInput(const sf::Event& event);
+    void update(Food& food);
     const Body& getBody() const;
     void draw(sf::RenderWindow& window) const;
     void setDirection(const Direction& dir);
@@ -20,6 +25,7 @@ private:
     class BodyPiece {
     public:
         BodyPiece(int x, int y);
+
         const sf::Vector2i& coords() const;
         sf::Vector2i& coords();
     private:

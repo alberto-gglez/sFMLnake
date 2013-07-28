@@ -2,7 +2,9 @@
 #define SNAKE_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "pj.h"
+#include "food.h"
 
 class Snake {
 public:
@@ -11,6 +13,8 @@ public:
 private:
     sf::RenderWindow window;
     Pj player;
+    FoodGenerator foodgen;
+    sf::Music music;
 };
 
 #endif
