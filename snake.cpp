@@ -12,6 +12,8 @@
 #include <ctime>
 #include <cstdlib>
 
+#include <iostream>
+
 Snake::Snake()
     : window(sf::VideoMode(WIDTH, HEIGHT), "sFMLnake"), foodMan(player)
 {
@@ -43,12 +45,16 @@ void Snake::run() {
 
         // logic
         if(t.asSeconds() >= 0.44f) {
-            player.update(food, score);
+            if(!player.update(food, score))
+                lose();
             clock.restart();
         }
 
         if(food.eaten())
             foodMan.moveFood(food);
+
+        if(checkVictory())
+            win();
 
         // output
         window.clear(sf::Color::Green);
@@ -59,4 +65,12 @@ void Snake::run() {
 
         window.display();
     }
+}
+
+void Snake::win() const {
+
+}
+
+void Snake::lose() {
+    window.close();
 }

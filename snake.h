@@ -11,6 +11,9 @@ class Snake {
 public:
     Snake();
     void run();
+    bool checkVictory() const;
+    void win();
+    void lose();
 private:
     sf::RenderWindow window;
     Pj player;
@@ -18,5 +21,9 @@ private:
     sf::Music music;
     Score score;
 };
+
+inline bool Snake::checkVictory() const {
+    return player.getBody().size() == MAXBPIECES;
+}
 
 #endif

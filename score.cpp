@@ -6,7 +6,7 @@ Score::Score()
 {
     font.loadFromFile("font/alphbeta.ttf");
     text.setFont(font);
-    text.setColor(sf::Color::White);
+    text.setColor(sf::Color::Black);
     text.setPosition(10.f, 10.f);
 }
 

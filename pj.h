@@ -17,7 +17,7 @@ public:
     Pj(int x = BPIECE, int y = BPIECE);
 
     void readInput(const sf::Event& event);
-    void update(Food& food, Score& score);
+    bool update(Food& food, Score& score);
     const Body& getBody() const;
     void draw(sf::RenderWindow& window) const;
     void setDirection(const Direction& dir);
@@ -37,10 +37,10 @@ private:
     Direction direction;
     Body body;
 
-    void moveUp();
-    void moveRight();
-    void moveLeft();
-    void moveDown();
+    bool moveUp();
+    bool moveRight();
+    bool moveLeft();
+    bool moveDown();
 };
 
 inline Pj::BodyPiece::BodyPiece(int x, int y) : _coords(x, y) {}

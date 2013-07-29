@@ -26,12 +26,14 @@ void Pj::readInput(const sf::Event& event) {
     }
 }
 
-void Pj::update(Food& food, Score& score) {
+bool Pj::update(Food& food, Score& score) {
+    bool noCollisions;
+
     switch(direction) {
-        case UP:    moveUp();    break;
-        case RIGHT: moveRight(); break;
-        case LEFT:  moveLeft();  break;
-        case DOWN:  moveDown();  break;
+        case UP:    noCollisions = moveUp();    break;
+        case RIGHT: noCollisions = moveRight(); break;
+        case LEFT:  noCollisions = moveLeft();  break;
+        case DOWN:  noCollisions = moveDown();  break;
     }
 
     if(body.front().coords() == food.coords()) {
@@ -39,9 +41,11 @@ void Pj::update(Food& food, Score& score) {
         score.addPoint();
         grow();
     }
+
+    return noCollisions;
 }
 
-void Pj::moveUp() {
+bool Pj::moveUp() {
     BodyPiece head = body.front();
 
     head.coords().y -= BPIECE;
@@ -51,10 +55,14 @@ void Pj::moveUp() {
     if(!checkCollisions(head)) {
         body.push_front(head);
         body.pop_back();
+
+        return true;
     }
+
+    return false;
 }
 
-void Pj::moveRight() {
+bool Pj::moveRight() {
     BodyPiece head = body.front();
 
     head.coords().x += BPIECE;
@@ -64,10 +72,14 @@ void Pj::moveRight() {
     if(!checkCollisions(head)) {
         body.push_front(head);
         body.pop_back();
+
+        return true;
     }
+
+    return false;
 }
 
-void Pj::moveLeft() {
+bool Pj::moveLeft() {
     BodyPiece head = body.front();
 
     head.coords().x -= BPIECE;
@@ -77,10 +89,14 @@ void Pj::moveLeft() {
     if(!checkCollisions(head)) {
         body.push_front(head);
         body.pop_back();
+
+        return true;
     }
+
+    return false;
 }
 
-void Pj::moveDown() {
+bool Pj::moveDown() {
     BodyPiece head = body.front();
 
     head.coords().y += BPIECE;
@@ -90,7 +106,11 @@ void Pj::moveDown() {
     if(!checkCollisions(head)) {
         body.push_front(head);
         body.pop_back();
+
+        return true;
     }
+
+    return false;
 }
 
 void Pj::draw(sf::RenderWindow& window) const {
@@ -98,12 +118,11 @@ void Pj::draw(sf::RenderWindow& window) const {
     piece.setSize(sf::Vector2f(BPIECE, BPIECE));
     sf::Color color;
     int aux = 0;
-    static const int maxBodyPieces = (WIDTH / BPIECE) * (HEIGHT / BPIECE);
 
     for(auto& i: body) {
         color.r = color.g = color.b = 255 - aux;
         piece.setFillColor(color);
-        if(aux < maxBodyPieces)
+        if(aux < MAXBPIECES)
             aux++;
         piece.setPosition(i.coords().x, i.coords().y);
         window.draw(piece);
@@ -115,12 +134,9 @@ void Pj::grow() {
 }
 
 bool Pj::checkCollisions(const BodyPiece& bp) const {
-    for(unsigned int i = 1; i < body.size(); ++i) {
-        sf::Rect<int> r1(bp.coords().x, bp.coords().y, BPIECE, BPIECE),
-                      r2(body[i].coords().x, body[i].coords().y, BPIECE, BPIECE);
-        if(r1.intersects(r2))
+    for(unsigned int i = 1; i < body.size(); ++i)
+        if(bp.coords() == body[i].coords())
             return true;
-    }
 
     return false;
 }
