@@ -2,10 +2,10 @@
 #define GLOBALS_H
 
 // world
-#define WIDTH 640
-#define HEIGHT 480
+#define WIDTH (640.f)
+#define HEIGHT (480.f)
 // snake's body pieces
-#define BPIECE 40
-#define MAXBPIECES 192
+#define BPIECE (40.f)
+#define MAXBPIECES (192.f)
 
 #endif

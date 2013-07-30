@@ -45,8 +45,10 @@ void Snake::run() {
 
         // logic
         if(t.asSeconds() >= 0.44f) {
-            if(!player.update(food, score))
-                lose();
+            if(!player.update(food, score)) {
+                //lose();
+                std::cerr << "yes" << std::endl;
+            }
             clock.restart();
         }
 
@@ -60,14 +62,14 @@ void Snake::run() {
         window.clear(sf::Color::Green);
 
         player.draw(window);
-        food.draw(window);
+        window.draw(food);
         window.draw(score.getText());
 
         window.display();
     }
 }
 
-void Snake::win() const {
+void Snake::win() {
 
 }
 

@@ -2,27 +2,18 @@
 
 #include "globals.h"
 
-Food::Food(int x, int y)
-    : _coords(x, y), _eaten(false)
+Food::Food()
+    : _eaten(false)
 {
     soundBuffer.loadFromFile("sound/chomp.ogg");
     biteSound.setBuffer(soundBuffer);
+    texture.loadFromFile("sprite/apple.png");
+    setTexture(texture);
 }
 
 void Food::eat() {
     _eaten = true;
     //biteSound.play();
-}
-
-void Food::draw(sf::RenderWindow& window) const {
-    if(!_eaten) {
-        sf::RectangleShape foodShape;
-        foodShape.setSize(sf::Vector2f(BPIECE, BPIECE));
-        foodShape.setFillColor(sf::Color::Red);
-        foodShape.setPosition(coords().x, coords().y);
-
-        window.draw(foodShape);
-    }
 }
 
 void FoodManager::moveFood(Food& food) const {
@@ -31,12 +22,11 @@ void FoodManager::moveFood(Food& food) const {
 
     // this must be optimized
     do {
-        food.coords().x = BPIECE * (std::rand() % (WIDTH / BPIECE));
-        food.coords().y = BPIECE * (std::rand() % (HEIGHT / BPIECE));
+        food.setPosition(BPIECE * (std::rand() % int(WIDTH / BPIECE)), BPIECE * (std::rand() % int(HEIGHT / BPIECE)));
         ok = true;
 
-        for(auto& i: player->getBody())
-            if(i.coords() == food.coords())
+        for(auto i: player->getBody())
+            if(i->getPosition() == food.getPosition())
                 ok = false;
     } while(!ok);
 }
