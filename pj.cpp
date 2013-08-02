@@ -3,7 +3,7 @@
 #include "score.h"
 
 Pj::Pj(float x, float y)
-    : direction(RIGHT)
+    : actualDir(RIGHT), nextDir(RIGHT)
 {
     texture.loadFromFile("sprite/snake.png");
 
@@ -29,13 +29,13 @@ Pj::Pj(float x, float y)
 void Pj::readInput(const sf::Event& event) {
     if(event.type == sf::Event::KeyPressed) {
         if(event.key.code == sf::Keyboard::Up)
-            setDirection(UP);
+            nextDir = UP;
         if(event.key.code == sf::Keyboard::Right)
-            setDirection(RIGHT);
+            nextDir = RIGHT;
         if(event.key.code == sf::Keyboard::Left)
-            setDirection(LEFT);
+            nextDir = LEFT;
         if(event.key.code == sf::Keyboard::Down)
-            setDirection(DOWN);
+            nextDir = DOWN;
         // for testing
         if(event.key.code == sf::Keyboard::Space)
             grow();
@@ -45,12 +45,13 @@ void Pj::readInput(const sf::Event& event) {
 bool Pj::update(Food& food, Score& score) {
     bool noCollisions;
 
-    switch(direction) {
+    switch(nextDir) {
         case UP:    noCollisions = moveUp();    break;
         case RIGHT: noCollisions = moveRight(); break;
         case LEFT:  noCollisions = moveLeft();  break;
         case DOWN:  noCollisions = moveDown();  break;
     }
+    actualDir = nextDir;
 
     if(body.front()->getPosition() == food.getPosition()) {
         food.eat();
@@ -138,37 +139,63 @@ bool Pj::moveDown() {
 }
 
 void Pj::draw(sf::RenderWindow& window) const {
-
     // head
     BodyPiece* b = body[0];
     b->setTextureRect(sf::IntRect(80, 0, 40, 40));
-    switch(direction) {
+    switch(actualDir) {
+        case UP:    b->setRotation(-90.f); b->setScale(1.f, 1.f);  break;
+        case RIGHT: b->setRotation(0.f);   b->setScale(1.f, 1.f);  break;
+        case LEFT:  b->setRotation(0.f);   b->setScale(-1.f, 1.f); break;
+        case DOWN:  b->setRotation(90.f);  b->setScale(1.f, 1.f);  break;
+    }
+    //sf::Vector2f pos = b->getPosition();
+    //b->setPosition(pos.x + 20.f, pos.y + 20.f);
+    window.draw(*b);
+    //b->setPosition(pos);
+
+    // body
+    for(unsigned int i = 1; i < body.size() - 1; ++i) {
+        Direction dirPrev = prevPiecePos(i), dirPos = prevPiecePos(i + 1);
+        b = body[i];
+        b->setTextureRect(sf::IntRect(40, 0, 40, 40));
+
+        switch(dirPrev) {
+            case UP: {
+                switch(dirPos) {
+                    case DOWN:  b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(-90.f); b->setScale(1.f, 1.f);  break;
+                    case RIGHT: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);   b->setScale(-1.f, 1.f); break;
+                    case LEFT:  b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);   b->setScale(1.f, 1.f);  break;
+                }
+                break;
+            }
+            case RIGHT: {
+                switch(dirPos) {}
+                break;
+            }
+            case LEFT: {
+                switch(dirPos) {}
+                break;
+            }
+            case DOWN: {
+                switch(dirPos) {}
+                break;
+            }
+        }
+
+        window.draw(*b);
+    }
+
+    // tail
+    int n = body.size() - 1;
+    b = body[n];
+    b->setTextureRect(sf::IntRect(0, 0, 40, 40));
+    switch(prevPiecePos(n)) {
         case UP:    b->setRotation(-90.f); b->setScale(1.f, 1.f);  break;
         case RIGHT: b->setRotation(0.f);   b->setScale(1.f, 1.f);  break;
         case LEFT:  b->setRotation(0.f);   b->setScale(-1.f, 1.f); break;
         case DOWN:  b->setRotation(90.f);  b->setScale(1.f, 1.f);  break;
     }
     window.draw(*b);
-
-    // body
-    // tail
-
-
-    // ugly old method
-
-    sf::RectangleShape piece;
-    piece.setSize(sf::Vector2f(BPIECE, BPIECE));
-    sf::Color color;
-    int aux = 0;
-
-    for(unsigned int i = 1; i < body.size(); ++i) {
-        color.r = color.g = color.b = 255 - aux;
-        piece.setFillColor(color);
-        if(aux < MAXBPIECES)
-            aux++;
-        piece.setPosition(body[i]->getPosition());
-        window.draw(piece);
-    }
 }
 
 void Pj::grow() {
@@ -190,4 +217,20 @@ bool Pj::checkCollisions(const sf::Vector2f& v) const {
 Pj::~Pj() {
     for(unsigned int i = 0; i < body.size(); ++i)
         delete body[i];
+}
+
+Pj::Direction Pj::prevPiecePos(unsigned int i) const {
+    sf::Vector2f pos = body[i]->getPosition() - body[i - 1]->getPosition();
+
+    if(pos.x == 0) {
+        if(pos.y > 0)
+            return UP;
+        else
+            return DOWN;
+    } else {
+        if(pos.x > 0)
+            return LEFT;
+        else
+            return RIGHT;
+    }
 }

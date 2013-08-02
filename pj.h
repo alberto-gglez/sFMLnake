@@ -20,13 +20,12 @@ public:
     bool update(Food& food, Score& score);
     const Body& getBody() const;
     void draw(sf::RenderWindow& window) const;
-    void setDirection(const Direction& dir);
     void grow();
     bool checkCollisions(const sf::Vector2f& v) const;
 
     ~Pj();
 private:
-    Direction direction;
+    Direction actualDir, nextDir;
     Body body;
     sf::Texture texture;
 
@@ -34,11 +33,9 @@ private:
     bool moveRight();
     bool moveLeft();
     bool moveDown();
+    Direction prevPiecePos(unsigned int i) const;
 };
 
 inline const Pj::Body& Pj::getBody() const { return body; }
-inline void  Pj::setDirection(const Direction& dir) {
-    direction = dir;
-}
 
 #endif

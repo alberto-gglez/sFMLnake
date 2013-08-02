@@ -8,5 +8,6 @@ Arrow keys: Move the snake<br/>Space: Add piece of body (only on beta)
 
 ToDo
 ========
-Collisions<br/>
-Score
+Win and lose screens<br />
+Menu<br />
+Score table<br />
