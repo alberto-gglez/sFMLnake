@@ -14,7 +14,7 @@ Food::Food()
 
 void Food::eat() {
     _eaten = true;
-    //biteSound.play();
+    biteSound.play();
 }
 
 void FoodManager::moveFood(Food& food) const {

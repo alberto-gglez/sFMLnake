@@ -3,7 +3,7 @@
 #include "score.h"
 
 Pj::Pj(float x, float y)
-    : actualDir(RIGHT), nextDir(RIGHT)
+    : actualDir(RIGHT), nextDir(RIGHT), hasGrown(false)
 {
     texture.loadFromFile("sprite/snake.png");
 
@@ -44,6 +44,8 @@ void Pj::readInput(const sf::Event& event) {
 
 bool Pj::update(Food& food, Score& score) {
     bool noCollisions;
+
+    hasGrown = false;
 
     switch(nextDir) {
         case UP:    noCollisions = moveUp();    break;
@@ -152,46 +154,47 @@ void Pj::draw(sf::RenderWindow& window) const {
 
     // body
     for(unsigned int i = 1; i < body.size() - 1; ++i) {
-        Direction dirPrev = prevPiecePos(i), dirPos = prevPiecePos(i + 1);
-        b = body[i];
-        b->setTextureRect(sf::IntRect(40, 0, 40, 40));
+        if(!(hasGrown && i == body.size() - 2)) {
+            Direction dirPrev = prevPiecePos(i), dirPos = prevPiecePos(i + 1);
+            b = body[i];
 
-        switch(dirPrev) {
-            case UP: {
-                switch(dirPos) {
-                    case UP:  b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(-90.f); b->setScale(1.f, 1.f);  break;
-                    case RIGHT: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);   b->setScale(-1.f, 1.f); break;
-                    case LEFT:  b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);   b->setScale(1.f, 1.f);  break;
-                    default: break;
+            switch(dirPrev) {
+                case UP: {
+                    switch(dirPos) {
+                        case UP:    b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(-90.f); b->setScale(1.f, 1.f);  break;
+                        case RIGHT: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);   b->setScale(-1.f, 1.f); break;
+                        case LEFT:  b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);   b->setScale(1.f, 1.f);  break;
+                        default: break;
+                    }
+                    break;
                 }
-                break;
-            }
-            case RIGHT: {
-                switch(dirPos) {
-                    case RIGHT: b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(0.f); b->setScale(1.f, 1.f);  break;
-                    case UP:    b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(1.f, -1.f); break;
-                    case DOWN:  b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(1.f, 1.f);  break;
-                    default: break;
+                case RIGHT: {
+                    switch(dirPos) {
+                        case RIGHT: b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(0.f); b->setScale(1.f, 1.f);  break;
+                        case UP:    b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(1.f, -1.f); break;
+                        case DOWN:  b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(1.f, 1.f);  break;
+                        default: break;
+                    }
+                    break;
                 }
-                break;
-            }
-            case LEFT: {
-                switch(dirPos) {
-                    case LEFT: b->setTextureRect(sf::IntRect(40, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, 1.f); break;
-                    case DOWN: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, 1.f); break;
-                    case UP: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, -1.f); break;
-                    default: break;
+                case LEFT: {
+                    switch(dirPos) {
+                        case LEFT: b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(0.f); b->setScale(-1.f, 1.f);  break;
+                        case DOWN: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, 1.f);  break;
+                        case UP:   b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, -1.f); break;
+                        default: break;
+                    }
+                    break;
                 }
-                break;
-            }
-            case DOWN: {
-                switch(dirPos) {
-                    case DOWN: b->setTextureRect(sf::IntRect(40, 0, 40, 40)); b->setRotation(90.f); b->setScale(1.f, 1.f); break;
-                    case RIGHT: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, -1.f); break;
-                    case LEFT: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(1.f, -1.f); break;
-                    default: break;
+                case DOWN: {
+                    switch(dirPos) {
+                        case DOWN:  b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(90.f); b->setScale(1.f, 1.f);   break;
+                        case RIGHT: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);  b->setScale(-1.f, -1.f); break;
+                        case LEFT:  b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);  b->setScale(1.f, -1.f);  break;
+                        default: break;
+                    }
+                    break;
                 }
-                break;
             }
         }
 
@@ -199,7 +202,13 @@ void Pj::draw(sf::RenderWindow& window) const {
     }
 
     // tail
-    int n = body.size() - 1;
+    int n;
+
+    if(hasGrown)
+        n = body.size() - 2;
+    else
+        n = body.size() - 1;
+
     b = body[n];
     b->setTextureRect(sf::IntRect(0, 0, 40, 40));
     switch(prevPiecePos(n)) {
@@ -217,6 +226,7 @@ void Pj::grow() {
     b->setPosition(body.back()->getPosition());
     b->setOrigin(BPIECE / 2.f, BPIECE / 2.f);
     body.push_back(b);
+    hasGrown = true;
 }
 
 bool Pj::checkCollisions(const sf::Vector2f& v) const {

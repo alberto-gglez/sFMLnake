@@ -7,72 +7,18 @@
         - Victory condition
 */
 
-#include "globals.h"
 #include "snake.h"
-#include <ctime>
-#include <cstdlib>
-
-#include <iostream>
 
 Snake::Snake()
-    : window(sf::VideoMode(WIDTH, HEIGHT), "sFMLnake"), foodMan(player)
+    : window(sf::VideoMode(WIDTH, HEIGHT), "sFMLnake"), menuScreen(window), gameScreen(window)
 {
     window.setFramerateLimit(60u);
     std::srand(std::time(nullptr));
-    music.openFromFile("sound/music.ogg");
 }
 
 void Snake::run() {
-    sf::Clock clock;
-    Food food;
-    foodMan.moveFood(food);
-
-    music.setLoop(true);
-    music.setVolume(50.f);
-    //music.play();
-
     while(window.isOpen()) {
-        sf::Time t = clock.getElapsedTime();
-        sf::Event event;
-
-        // input
-        while(window.pollEvent(event)) {
-            if(event.type == sf::Event::Closed)
-                window.close();
-
-            player.readInput(event);
-        }
-
-        // logic
-        if(t.asSeconds() >= 0.44f) {
-            if(!player.update(food, score)) {
-                //lose();
-                std::cerr << "yes" << std::endl;
-            }
-            clock.restart();
-        }
-
-        if(food.eaten())
-            foodMan.moveFood(food);
-
-        if(checkVictory())
-            win();
-
-        // output
-        window.clear(sf::Color::Green);
-
-        player.draw(window);
-        window.draw(food);
-        window.draw(score.getText());
-
-        window.display();
+        menuScreen.run();
+        gameScreen.run();
     }
-}
-
-void Snake::win() {
-
-}
-
-void Snake::lose() {
-    window.close();
 }
