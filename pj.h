@@ -14,7 +14,8 @@ public:
     typedef std::deque<BodyPiece*> Body;
     enum Direction {UP, RIGHT, LEFT, DOWN};
 
-    Pj(float x = BPIECE, float y = BPIECE);
+    //Pj(float x = BPIECE, float y = BPIECE);
+    Pj(float x = 20.f, float y = 20.f);
 
     void readInput(const sf::Event& event);
     bool update(Food& food, Score& score);

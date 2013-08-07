@@ -66,8 +66,8 @@ bool Pj::moveUp() {
     sf::Vector2f pos = body.front()->getPosition();
 
     pos.y -= BPIECE;
-    if(pos.y < 0)
-        pos.y = HEIGHT - BPIECE;
+    if(pos.y < 20.f)
+        pos.y = HEIGHT - BPIECE + 20.f;
 
     if(!checkCollisions(pos)) {
         BodyPiece* b = body.back();
@@ -85,8 +85,8 @@ bool Pj::moveRight() {
     sf::Vector2f pos = body.front()->getPosition();
 
     pos.x += BPIECE;
-    if(pos.x > WIDTH - BPIECE)
-        pos.x = 0.f;
+    if(pos.x > WIDTH - BPIECE + 20.f)
+        pos.x = 20.f;
 
     if(!checkCollisions(pos)) {
         BodyPiece* b = body.back();
@@ -104,8 +104,8 @@ bool Pj::moveLeft() {
     sf::Vector2f pos = body.front()->getPosition();
 
     pos.x -= BPIECE;
-    if(pos.x < 0)
-        pos.x = WIDTH - BPIECE;
+    if(pos.x < 20.f)
+        pos.x = WIDTH - BPIECE + 20.f;
 
     if(!checkCollisions(pos)) {
         BodyPiece* b = body.back();
@@ -123,8 +123,8 @@ bool Pj::moveDown() {
     sf::Vector2f pos = body.front()->getPosition();
 
     pos.y += BPIECE;
-    if(pos.y > HEIGHT - BPIECE)
-        pos.y = 0;
+    if(pos.y > HEIGHT - BPIECE + 20.f)
+        pos.y = 20.f;
 
     if(!checkCollisions(pos)) {
         BodyPiece* b = body.back();
@@ -148,10 +148,7 @@ void Pj::draw(sf::RenderWindow& window) const {
         case LEFT:  b->setRotation(0.f);   b->setScale(-1.f, 1.f); break;
         case DOWN:  b->setRotation(90.f);  b->setScale(1.f, 1.f);  break;
     }
-    //sf::Vector2f pos = b->getPosition();
-    //b->setPosition(pos.x + 20.f, pos.y + 20.f);
     window.draw(*b);
-    //b->setPosition(pos);
 
     // body
     for(unsigned int i = 1; i < body.size() - 1; ++i) {
@@ -162,22 +159,38 @@ void Pj::draw(sf::RenderWindow& window) const {
         switch(dirPrev) {
             case UP: {
                 switch(dirPos) {
-                    case DOWN:  b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(-90.f); b->setScale(1.f, 1.f);  break;
+                    case UP:  b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(-90.f); b->setScale(1.f, 1.f);  break;
                     case RIGHT: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);   b->setScale(-1.f, 1.f); break;
                     case LEFT:  b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f);   b->setScale(1.f, 1.f);  break;
+                    default: break;
                 }
                 break;
             }
             case RIGHT: {
-                switch(dirPos) {}
+                switch(dirPos) {
+                    case RIGHT: b->setTextureRect(sf::IntRect(40, 0, 40, 40));  b->setRotation(0.f); b->setScale(1.f, 1.f);  break;
+                    case UP:    b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(1.f, -1.f); break;
+                    case DOWN:  b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(1.f, 1.f);  break;
+                    default: break;
+                }
                 break;
             }
             case LEFT: {
-                switch(dirPos) {}
+                switch(dirPos) {
+                    case LEFT: b->setTextureRect(sf::IntRect(40, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, 1.f); break;
+                    case DOWN: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, 1.f); break;
+                    case UP: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, -1.f); break;
+                    default: break;
+                }
                 break;
             }
             case DOWN: {
-                switch(dirPos) {}
+                switch(dirPos) {
+                    case DOWN: b->setTextureRect(sf::IntRect(40, 0, 40, 40)); b->setRotation(90.f); b->setScale(1.f, 1.f); break;
+                    case RIGHT: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(-1.f, -1.f); break;
+                    case LEFT: b->setTextureRect(sf::IntRect(120, 0, 40, 40)); b->setRotation(0.f); b->setScale(1.f, -1.f); break;
+                    default: break;
+                }
                 break;
             }
         }
@@ -207,7 +220,7 @@ void Pj::grow() {
 }
 
 bool Pj::checkCollisions(const sf::Vector2f& v) const {
-    for(unsigned int i = 1; i < body.size(); ++i)
+    for(unsigned int i = 1; i < body.size() - 1; ++i)
         if(v == body[i]->getPosition())
             return true;
 
@@ -223,12 +236,20 @@ Pj::Direction Pj::prevPiecePos(unsigned int i) const {
     sf::Vector2f pos = body[i]->getPosition() - body[i - 1]->getPosition();
 
     if(pos.x == 0) {
-        if(pos.y > 0)
+        if(pos.y == HEIGHT - 40.f)
+            return DOWN;
+        else if(pos.y == -HEIGHT + 40.f)
+            return UP;
+        else if(pos.y > 0)
             return UP;
         else
             return DOWN;
     } else {
-        if(pos.x > 0)
+        if(pos.x == WIDTH - 40.f)
+            return RIGHT;
+        else if(pos.x == -WIDTH + 40.f)
+            return LEFT;
+        else if(pos.x > 0)
             return LEFT;
         else
             return RIGHT;

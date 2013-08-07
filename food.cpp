@@ -9,6 +9,7 @@ Food::Food()
     biteSound.setBuffer(soundBuffer);
     texture.loadFromFile("sprite/apple.png");
     setTexture(texture);
+    setOrigin(BPIECE / 2.f, BPIECE / 2.f);
 }
 
 void Food::eat() {
@@ -22,7 +23,7 @@ void FoodManager::moveFood(Food& food) const {
 
     // this must be optimized
     do {
-        food.setPosition(BPIECE * (std::rand() % int(WIDTH / BPIECE)), BPIECE * (std::rand() % int(HEIGHT / BPIECE)));
+        food.setPosition(BPIECE * (std::rand() % int(WIDTH / BPIECE)) + 20.f, BPIECE * (std::rand() % int(HEIGHT / BPIECE)) + 20.f);
         ok = true;
 
         for(auto i: player->getBody())
