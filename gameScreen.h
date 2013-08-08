@@ -13,7 +13,6 @@ public:
     GameScreen(sf::RenderWindow& window);
     int run();
 private:
-    sf::RenderWindow& window;
     Pj player;
     FoodManager foodMan;
     sf::Music music;

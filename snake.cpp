@@ -10,7 +10,7 @@
 #include "snake.h"
 
 Snake::Snake()
-    : window(sf::VideoMode(WIDTH, HEIGHT), "sFMLnake"), menuScreen(window), gameScreen(window)
+    : window(sf::VideoMode(WIDTH, HEIGHT), "sFMLnake"), menuScreen(window), highScoreScreen(window), gameScreen(window)
 {
     window.setFramerateLimit(60u);
     std::srand(std::time(nullptr));
@@ -18,7 +18,10 @@ Snake::Snake()
 
 void Snake::run() {
     while(window.isOpen()) {
-        menuScreen.run();
-        gameScreen.run();
+        switch(menuScreen.run()) {
+            case 0: gameScreen.run(); break;
+            case 1: highScoreScreen.run(); break;
+            default: window.close();
+        }
     }
 }

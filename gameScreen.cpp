@@ -7,7 +7,7 @@
 #include <iostream>
 
 GameScreen::GameScreen(sf::RenderWindow& window)
-    : window(window), foodMan(player)
+    : Screen(window), foodMan(player)
 {
     music.openFromFile("sound/music.ogg");
 }

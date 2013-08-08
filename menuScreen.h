@@ -10,8 +10,6 @@ public:
     MenuScreen(sf::RenderWindow& window);
     int run();
 private:
-    sf::RenderWindow& window;
-
     sf::Font font;
     sf::Text name, gameStartTxt, scoresTxt, exitTxt;
 

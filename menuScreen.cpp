@@ -1,10 +1,27 @@
 #include "menuScreen.h"
 
 MenuScreen::MenuScreen(sf::RenderWindow& window)
-    : window(window), option(0)
+    : Screen(window), option(0)
 {
     font.loadFromFile("font/alphbeta.ttf");
-    name.setFont(font); gameStartTxt.setFont(font); scoresTxt.setFont(font); exitTxt.setFont(font);
+    name.setFont(font);
+    gameStartTxt.setFont(font);
+    scoresTxt.setFont(font);
+    exitTxt.setFont(font);
+
+    name.setString("sFMLnake");
+    name.setColor(sf::Color::Black);
+    name.scale(3.f, 3.f);
+    name.setPosition(120.f, 40.f);
+
+    gameStartTxt.setString("Play");
+    gameStartTxt.setPosition(290.f, 220.f);
+
+    scoresTxt.setString("High scores");
+    scoresTxt.setPosition(235.f, 260.f);
+
+    exitTxt.setString("Exit");
+    exitTxt.setPosition(290.f, 300.f);
 
     selectBuff.loadFromFile("sound/selectSnd.ogg");
     selectSnd.setBuffer(selectBuff);
@@ -15,21 +32,7 @@ MenuScreen::MenuScreen(sf::RenderWindow& window)
 }
 
 int MenuScreen::run() {
-    name.setString("sFMLnake");
-    name.setColor(sf::Color::Black);
-    name.scale(3.f, 3.f);
-    name.setPosition(120.f, 20.f);
-
-    gameStartTxt.setString("Play");
-    gameStartTxt.setPosition(290.f, 200.f);
-
-    scoresTxt.setString("High scores");
-    scoresTxt.setPosition(235.f, 240.f);
-
-    exitTxt.setString("Exit");
-    exitTxt.setPosition(290.f, 280.f);
-
-    bool optSelected = false;
+    bool optSelected = false, cursorMoved = false;
     while(!optSelected) {
         // input
         sf::Event event;
@@ -37,18 +40,23 @@ int MenuScreen::run() {
         while(window.pollEvent(event)) {
             if(event.type == sf::Event::Closed)
                 window.close();
-            if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up) {
+            if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up && !cursorMoved) {
                 option = (option + 2) % 3;
                 selectSnd.play();
+                cursorMoved = true;
             }
-            if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down) {
+            if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down && !cursorMoved) {
                 option = (option + 1) % 3;
                 selectSnd.play();
+                cursorMoved = true;
             }
             if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return) {
                 optSelected = true;
                 confirmSnd.play();
             }
+            if(event.type == sf::Event::KeyReleased &&
+              (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down))
+                cursorMoved = false;
         }
 
         // logic

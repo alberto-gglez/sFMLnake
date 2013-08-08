@@ -3,6 +3,7 @@
 
 #include "gameScreen.h"
 #include "menuScreen.h"
+#include "highScoreScreen.h"
 #include <SFML/Graphics.hpp>
 
 class Snake {
@@ -12,6 +13,7 @@ public:
 private:
     sf::RenderWindow window;
     MenuScreen menuScreen;
+    HighScoreScreen highScoreScreen;
     GameScreen gameScreen;
 };
 
