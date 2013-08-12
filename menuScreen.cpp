@@ -39,7 +39,8 @@ int MenuScreen::run() {
 
         while(window.pollEvent(event)) {
             if(event.type == sf::Event::Closed)
-                window.close();
+                return 2;
+
             if(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up && !cursorMoved) {
                 option = (option + 2) % 3;
                 selectSnd.play();
@@ -71,7 +72,7 @@ int MenuScreen::run() {
         else
             exitTxt.setColor(sf::Color::White);
 
-        // logic
+        // output
         window.clear(sf::Color::Green);
 
         window.draw(name);

@@ -1,4 +1,5 @@
 #include "score.h"
+
 #include <sstream>
 
 Score::Score()

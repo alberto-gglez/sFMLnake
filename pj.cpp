@@ -1,4 +1,5 @@
 #include "pj.h"
+
 #include "food.h"
 #include "score.h"
 
@@ -57,7 +58,7 @@ bool Pj::update(Food& food, Score& score) {
 
     if(body.front()->getPosition() == food.getPosition()) {
         food.eat();
-        score.addPoint();
+        score.addPoints(10);
         grow();
     }
 

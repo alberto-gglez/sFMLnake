@@ -1,13 +1,13 @@
 #ifndef SCORE_H
 #define SCORE_H
 
-#include <SFML/Graphics.hpp>
 #include "globals.h"
+#include <SFML/Graphics.hpp>
 
 class Score {
 public:
     Score();
-    void addPoint();
+    void addPoints(unsigned int n = 1);
     unsigned int getPoints() const;
     const sf::Text& getText();
 private:
@@ -16,7 +16,7 @@ private:
     sf::Text text;
 };
 
-inline void Score::addPoint() { ++points; }
+inline void Score::addPoints(unsigned int n) { points += n; }
 inline unsigned int Score::getPoints() const { return points; }
 
 #endif

@@ -1,10 +1,11 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
+#include <SFML/Graphics.hpp>
+#include "scoreData.h"
 #include "gameScreen.h"
 #include "menuScreen.h"
 #include "highScoreScreen.h"
-#include <SFML/Graphics.hpp>
 
 class Snake {
 public:
@@ -15,6 +16,7 @@ private:
     MenuScreen menuScreen;
     HighScoreScreen highScoreScreen;
     GameScreen gameScreen;
+    ScoreData scoreData;
 };
 
 #endif

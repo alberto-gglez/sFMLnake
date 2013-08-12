@@ -3,11 +3,12 @@
 #include "globals.h"
 #include <ctime>
 #include <cstdlib>
+#include "scoreData.h"
 
 #include <iostream>
 
-GameScreen::GameScreen(sf::RenderWindow& window)
-    : Screen(window), foodMan(player)
+GameScreen::GameScreen(sf::RenderWindow& window, ScoreData& scoreData)
+    : Screen(window), foodMan(player), scoreData(scoreData)
 {
     music.openFromFile("sound/music.ogg");
 }
@@ -36,7 +37,9 @@ int GameScreen::run() {
         // logic
         if(t.asSeconds() >= 0.44f) {
             if(!player.update(food, score)) {
-                std::cerr << "yes" << std::endl;
+                scoreData.addScore(score.getPoints());
+                scoreData.save();
+                return -1;
             }
             clock.restart();
         }

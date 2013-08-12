@@ -8,15 +8,18 @@
 #include "score.h"
 #include "screen.h"
 
+class ScoreData;
+
 class GameScreen : public Screen {
 public:
-    GameScreen(sf::RenderWindow& window);
+    GameScreen(sf::RenderWindow& window, ScoreData& scoreData);
     int run();
 private:
     Pj player;
     FoodManager foodMan;
     sf::Music music;
     Score score;
+    ScoreData& scoreData;
 };
 
 #endif
