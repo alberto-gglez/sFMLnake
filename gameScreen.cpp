@@ -88,7 +88,7 @@ int GameScreen::gameOver() {
     gameOverTxt.setColor(sf::Color::Black);
     window.draw(gameOverTxt);
 
-    ss << "You score: " << score.getPoints();
+    ss << "Your score: " << score.getPoints();
     gameOverTxt.setString(ss.str());
     gameOverTxt.setPosition(WIDTH / 2 - gameOverTxt.getLocalBounds().width / 2, 190.f);
     window.draw(gameOverTxt);

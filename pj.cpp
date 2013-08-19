@@ -29,8 +29,7 @@ void Pj::readInput(const sf::Event& event) {
 }
 
 bool Pj::update(Food& food, Score& score) {
-    bool noCollisions;
-
+    bool noCollisions = false;
     hasGrown = false;
 
     switch(nextDir) {
