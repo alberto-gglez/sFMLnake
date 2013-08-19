@@ -1,9 +1,11 @@
 #include "menuScreen.h"
 
+#include "globals.h"
+
 MenuScreen::MenuScreen(sf::RenderWindow& window)
     : Screen(window), option(0)
 {
-    font.loadFromFile("font/alphbeta.ttf");
+    font.loadFromFile("fonts/alphbeta.ttf");
     name.setFont(font);
     gameStartTxt.setFont(font);
     scoresTxt.setFont(font);
@@ -15,20 +17,18 @@ MenuScreen::MenuScreen(sf::RenderWindow& window)
     name.setPosition(120.f, 40.f);
 
     gameStartTxt.setString("Play");
-    gameStartTxt.setPosition(290.f, 220.f);
+    gameStartTxt.setPosition(WIDTH / 2 - gameStartTxt.getLocalBounds().width / 2, 220.f);
 
     scoresTxt.setString("High scores");
-    scoresTxt.setPosition(235.f, 260.f);
+    scoresTxt.setPosition(WIDTH / 2 - scoresTxt.getLocalBounds().width / 2, 260.f);
 
     exitTxt.setString("Exit");
-    exitTxt.setPosition(290.f, 300.f);
+    exitTxt.setPosition(WIDTH / 2 - exitTxt.getLocalBounds().width / 2, 300.f);
 
-    selectBuff.loadFromFile("sound/selectSnd.ogg");
+    selectBuff.loadFromFile("sounds/selectSnd.ogg");
     selectSnd.setBuffer(selectBuff);
-    confirmBuff.loadFromFile("sound/confirmSnd.ogg");
+    confirmBuff.loadFromFile("sounds/confirmSnd.ogg");
     confirmSnd.setBuffer(confirmBuff);
-    backBuff.loadFromFile("sound/backSnd.ogg");
-    backSnd.setBuffer(backBuff);
 }
 
 int MenuScreen::run() {
@@ -73,7 +73,7 @@ int MenuScreen::run() {
             exitTxt.setColor(sf::Color::White);
 
         // output
-        window.clear(sf::Color::Green);
+        window.clear(sf::Color(0x9f, 0x6d, 0x47));
 
         window.draw(name);
         window.draw(gameStartTxt);

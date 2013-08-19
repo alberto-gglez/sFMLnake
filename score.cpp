@@ -5,10 +5,10 @@
 Score::Score()
     : points(0u)
 {
-    font.loadFromFile("font/alphbeta.ttf");
+    font.loadFromFile("fonts/alphbeta.ttf");
     text.setFont(font);
     text.setColor(sf::Color::Black);
-    text.setPosition(10.f, 10.f);
+    text.setPosition(20.f, 10.f);
 }
 
 const sf::Text& Score::getText() {

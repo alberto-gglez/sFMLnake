@@ -15,7 +15,7 @@ void Snake::run() {
         switch(menuScreen.run()) {
             case 0: gameScreen.run(); break;
             case 1: highScoreScreen.run(); break;
-            case 2: window.close();
+            case 2: window.close(); break;
         }
     }
 }

@@ -14,10 +14,12 @@ class GameScreen : public Screen {
 public:
     GameScreen(sf::RenderWindow& window, ScoreData& scoreData);
     int run();
+    int gameOver();
 private:
     Pj player;
-    FoodManager foodMan;
     sf::Music music;
+    sf::SoundBuffer backSndBuff;
+    sf::Sound backSnd;
     Score score;
     ScoreData& scoreData;
 };

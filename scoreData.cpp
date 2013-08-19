@@ -12,16 +12,16 @@ ScoreData::ScoreData() {
     ifstream is("score.dat", ios::binary | ios::in);
 
     if(is) {
-        int aux;
+        unsigned int aux;
 
         for(int i = 0; i < 10; ++i) {
-            is.read((char*)&aux, sizeof(int));
+            is.read((char*)&aux, sizeof(unsigned int));
             score.push_back(aux);
         }
 
         is.close();
     } else {
-        for(int i = 0; i < 10; ++i)
+        for(unsigned int i = 0; i < 10; ++i)
             score.push_back(0);
 
         save();
@@ -33,14 +33,14 @@ void ScoreData::save() {
 
     if(os) {
         for(unsigned int i = 0; i < 10 && i < score.size(); ++i)
-            os.write((char*)&score[i], sizeof(int));
+            os.write((char*)&score[i], sizeof(unsigned int));
 
         os.close();
     }
 }
 
-void ScoreData::addScore(int points) {
+void ScoreData::addScore(unsigned int points) {
     score.push_back(points);
 
-    std::sort(score.begin(), score.end(), [](int x, int y){ return x > y; });
+    std::sort(score.begin(), score.end(), [](unsigned int x, unsigned int y){ return x > y; });
 }

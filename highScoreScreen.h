@@ -13,7 +13,7 @@ public:
     int run();
 private:
     sf::Font font;
-    sf::Text scoreTxt, name;
+    sf::Text scoreTxt, nameTxt, backTxt;
     sf::SoundBuffer sndBuffer;
     sf::Sound backSnd;
     ScoreData& scoreData;

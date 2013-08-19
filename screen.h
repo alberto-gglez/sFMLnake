@@ -7,7 +7,7 @@ class Screen {
 public:
     Screen(sf::RenderWindow& window);
     virtual int run() = 0;
-    virtual ~Screen() = default;
+    virtual ~Screen() {};
 protected:
     sf::RenderWindow& window;
 };

@@ -14,7 +14,7 @@ private:
     sf::Text name, gameStartTxt, scoresTxt, exitTxt;
 
     sf::SoundBuffer selectBuff, confirmBuff, backBuff;
-    sf::Sound selectSnd, confirmSnd, backSnd;
+    sf::Sound selectSnd, confirmSnd;
 
     int option;
 };

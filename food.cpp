@@ -2,32 +2,31 @@
 
 #include "globals.h"
 
-Food::Food()
-    : _eaten(false)
+Food::Food(const Pj& pj)
+    : pj(pj)
 {
-    soundBuffer.loadFromFile("sound/chomp.ogg");
+    soundBuffer.loadFromFile("sounds/chomp.ogg");
     biteSound.setBuffer(soundBuffer);
-    texture.loadFromFile("sprite/apple.png");
+    texture.loadFromFile("sprites/apple.png");
     setTexture(texture);
     setOrigin(BPIECE / 2.f, BPIECE / 2.f);
 }
 
 void Food::eat() {
-    _eaten = true;
     biteSound.play();
+    move();
 }
 
-void FoodManager::moveFood(Food& food) const {
+void Food::move() {
     bool ok;
-    food.refresh();
 
-    // this must be optimized
+    // this would be optimized
     do {
-        food.setPosition(BPIECE * (std::rand() % int(WIDTH / BPIECE)) + 20.f, BPIECE * (std::rand() % int(HEIGHT / BPIECE)) + 20.f);
+        setPosition(BPIECE * (std::rand() % int(WIDTH / BPIECE)) + 20.f, BPIECE * (std::rand() % int(HEIGHT / BPIECE)) + 20.f);
         ok = true;
 
-        for(auto i: player->getBody())
-            if(i->getPosition() == food.getPosition())
+        for(auto i: pj.getBody())
+            if(i->getPosition() == getPosition())
                 ok = false;
     } while(!ok);
 }

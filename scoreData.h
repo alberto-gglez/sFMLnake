@@ -6,14 +6,14 @@
 class ScoreData {
 public:
     ScoreData();
-    const std::vector<int>& getHighScore() const;
+    const std::vector<unsigned int>& getHighScore() const;
     void save();
-    void addScore(int points);
+    void addScore(unsigned int points);
 private:
-    std::vector<int> score;
+    std::vector<unsigned int> score;
 };
 
-inline const std::vector<int>& ScoreData::getHighScore() const {
+inline const std::vector<unsigned int>& ScoreData::getHighScore() const {
     return score;
 }
 

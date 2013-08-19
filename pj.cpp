@@ -3,28 +3,13 @@
 #include "food.h"
 #include "score.h"
 
-Pj::Pj(float x, float y)
-    : actualDir(RIGHT), nextDir(RIGHT), hasGrown(false)
+Pj::Pj()
+    : actualDir(RIGHT), nextDir(RIGHT), hasGrown(false), isFat(false)
 {
-    texture.loadFromFile("sprite/snake.png");
+    slimTexture.loadFromFile("sprites/snake.png");
+    fatTexture.loadFromFile("sprites/fatSnake.png");
 
-    BodyPiece* b = new BodyPiece;
-    b->setTexture(texture);
-    b->setOrigin(BPIECE / 2.f, BPIECE / 2.f);
-    b->setPosition(x, y);
-    body.push_front(b);
-
-    b = new BodyPiece;
-    b->setTexture(texture);
-    b->setOrigin(BPIECE / 2.f, BPIECE / 2.f);
-    b->setPosition(x + BPIECE, y);
-    body.push_front(b);
-
-    b = new BodyPiece;
-    b->setTexture(texture);
-    b->setOrigin(BPIECE / 2.f, BPIECE / 2.f);
-    b->setPosition(x + 2 * BPIECE, y);
-    body.push_front(b);
+    reset();
 }
 
 void Pj::readInput(const sf::Event& event) {
@@ -60,6 +45,12 @@ bool Pj::update(Food& food, Score& score) {
         food.eat();
         score.addPoints(10);
         grow();
+
+        if(!isFat && score.getPoints() >= 1000) {
+            isFat = true;
+            for(auto it: body)
+                it->setTexture(fatTexture);
+        }
     }
 
     return noCollisions;
@@ -223,7 +214,10 @@ void Pj::draw(sf::RenderWindow& window) const {
 
 void Pj::grow() {
     BodyPiece* b = new BodyPiece;
-    b->setTexture(texture);
+    if(isFat)
+        b->setTexture(fatTexture);
+    else
+        b->setTexture(slimTexture);
     b->setPosition(body.back()->getPosition());
     b->setOrigin(BPIECE / 2.f, BPIECE / 2.f);
     body.push_back(b);
@@ -239,8 +233,7 @@ bool Pj::checkCollisions(const sf::Vector2f& v) const {
 }
 
 Pj::~Pj() {
-    for(unsigned int i = 0; i < body.size(); ++i)
-        delete body[i];
+    destroyBody();
 }
 
 Pj::Direction Pj::prevPiecePos(unsigned int i) const {
@@ -265,4 +258,36 @@ Pj::Direction Pj::prevPiecePos(unsigned int i) const {
         else
             return RIGHT;
     }
+}
+
+void Pj::reset() {
+    if(!body.empty()) {
+        destroyBody();
+        body.clear();
+        actualDir = nextDir = RIGHT;
+        hasGrown = isFat = false;
+    }
+
+    BodyPiece* b = new BodyPiece;
+    b->setTexture(slimTexture);
+    b->setOrigin(BPIECE / 2.f, BPIECE / 2.f);
+    b->setPosition(20.f, 20.f);
+    body.push_front(b);
+
+    b = new BodyPiece;
+    b->setTexture(slimTexture);
+    b->setOrigin(BPIECE / 2.f, BPIECE / 2.f);
+    b->setPosition(20.f + BPIECE, 20.f);
+    body.push_front(b);
+
+    b = new BodyPiece;
+    b->setTexture(slimTexture);
+    b->setOrigin(BPIECE / 2.f, BPIECE / 2.f);
+    b->setPosition(20.f + 2 * BPIECE, 20.f);
+    body.push_front(b);
+}
+
+void Pj::destroyBody() {
+    for(unsigned int i = 0; i < body.size(); ++i)
+        delete body[i];
 }

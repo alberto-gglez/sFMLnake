@@ -14,7 +14,7 @@ public:
     typedef std::deque<BodyPiece*> Body;
     enum Direction {UP, RIGHT, LEFT, DOWN};
 
-    Pj(float x = 20.f, float y = 20.f);
+    Pj();
 
     void readInput(const sf::Event& event);
     bool update(Food& food, Score& score);
@@ -22,13 +22,15 @@ public:
     void draw(sf::RenderWindow& window) const;
     void grow();
     bool checkCollisions(const sf::Vector2f& v) const;
+    void reset();
 
     ~Pj();
 private:
     Direction actualDir, nextDir;
     Body body;
-    sf::Texture texture;
-    bool hasGrown;
+    sf::Texture slimTexture, fatTexture;
+    bool hasGrown, isFat;
+    void destroyBody();
 
     bool moveUp();
     bool moveRight();

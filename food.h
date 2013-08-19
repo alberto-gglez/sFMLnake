@@ -8,28 +8,14 @@
 
 class Food : public sf::Sprite {
 public:
-    Food();
+    Food(const Pj& pj);
     void eat();
-    void refresh();
-    bool eaten() const;
+    void move();
 private:
-    bool _eaten;
     sf::SoundBuffer soundBuffer;
     sf::Sound biteSound;
     sf::Texture texture;
+    const Pj& pj;
 };
-
-inline void Food::refresh() { _eaten = false; }
-inline bool Food::eaten() const { return _eaten; }
-
-class FoodManager {
-public:
-    FoodManager(const Pj& pj);
-    void moveFood(Food& food) const;
-private:
-    const Pj* player;
-};
-
-inline FoodManager::FoodManager(const Pj& pj) : player(&pj) {}
 
 #endif
