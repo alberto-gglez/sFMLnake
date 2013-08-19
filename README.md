@@ -4,10 +4,12 @@ Snake clone made with SFML 2
 
 Controls
 ========
-Arrow keys: Move the snake<br/>Space: Add piece of body (only on beta)
+Ingame:<br />
+Use the arrow keys to change the Snake direction.<br />
+Menu:<br />
+Use the arrow keys to move between the available options and the return key to select.
 
 ToDo
 ========
-Win and lose screens<br />
-Menu<br />
-Score table<br />
+Add sounds to the game over screen.<br />
+Look for possible bugs or code optimizations.
