@@ -7,7 +7,7 @@
 HighScoreScreen::HighScoreScreen(sf::RenderWindow& window, ScoreData& scoreData)
     : Screen(window), scoreData(scoreData)
 {
-    font.loadFromFile("fonts/alphbeta.ttf");
+    font.loadFromFile("fonts/alphabeta.ttf");
     scoreTxt.setFont(font);
     scoreTxt.setColor(sf::Color::Black);
 
