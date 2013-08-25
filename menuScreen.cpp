@@ -5,7 +5,7 @@
 MenuScreen::MenuScreen(sf::RenderWindow& window)
     : Screen(window), option(0)
 {
-    font.loadFromFile("fonts/alphbeta.ttf");
+    font.loadFromFile("fonts/alphabeta.ttf");
     name.setFont(font);
     gameStartTxt.setFont(font);
     scoresTxt.setFont(font);

@@ -71,7 +71,7 @@ int GameScreen::gameOver() {
     std::stringstream ss;
 
     sf::Font font;
-    font.loadFromFile("fonts/alphbeta.ttf");
+    font.loadFromFile("fonts/alphabeta.ttf");
     sf::Text gameOverTxt;
     gameOverTxt.setFont(font);
 

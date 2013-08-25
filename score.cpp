@@ -5,7 +5,7 @@
 Score::Score()
     : points(0u)
 {
-    font.loadFromFile("fonts/alphbeta.ttf");
+    font.loadFromFile("fonts/alphabeta.ttf");
     text.setFont(font);
     text.setColor(sf::Color::Black);
     text.setPosition(20.f, 10.f);
