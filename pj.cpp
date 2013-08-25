@@ -23,8 +23,10 @@ void Pj::readInput(const sf::Event& event) {
         if(event.key.code == sf::Keyboard::Down)
             nextDir = DOWN;
         // for testing
+        /*
         if(event.key.code == sf::Keyboard::Space)
             grow();
+        */
     }
 }
 
