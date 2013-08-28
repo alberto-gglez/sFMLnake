@@ -26,6 +26,6 @@
 #define HEIGHT (480.f)
 // snake's body pieces
 #define BPIECE (40.f)
-#define MAXBPIECES (192.f)
+#define MAXBPIECES (192)
 
 #endif

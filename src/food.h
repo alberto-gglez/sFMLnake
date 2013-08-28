@@ -38,4 +38,12 @@ private:
     const Pj& pj;
 };
 
+inline unsigned int coordsToInt(const sf::Vector2f& v) {
+    return ((v.x - 20.f) / BPIECE) + ((v.y - 20.f) / 40.f) * 16.f;
+}
+
+inline sf::Vector2f intToCoords(unsigned int i) {
+    return sf::Vector2f(float(i / 16) * 40.f + 20.f, float(i % 12) * 40.f + 20.f);
+}
+
 #endif

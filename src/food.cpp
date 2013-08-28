@@ -22,6 +22,8 @@
 
 #include "globals.h"
 
+#include <iostream>
+
 Food::Food(const Pj& pj)
     : pj(pj)
 {
@@ -38,6 +40,7 @@ void Food::eat() {
 }
 
 void Food::move() {
+    /*
     bool ok;
 
     // this would be optimized
@@ -49,4 +52,28 @@ void Food::move() {
             if(i->getPosition() == getPosition())
                 ok = false;
     } while(!ok);
+    */
+
+    bool marksVect[MAXBPIECES] = { false };
+    unsigned int nSpaces = MAXBPIECES - pj.getBody().size(), freeSpacesVect[nSpaces];
+
+    for(auto i: pj.getBody())
+        marksVect[coordsToInt(i->getPosition())] = true;
+
+    int cont = 0;
+
+    unsigned int j = 0;
+    for(unsigned int i = 0; i < MAXBPIECES && j < nSpaces; ++i)
+        if(!marksVect[i])
+            freeSpacesVect[j++] = i;
+        else
+            ++cont;
+
+    std::cerr << j  << "/" << nSpaces << std::endl; //"Marcas x " << cont << std::endl;
+
+    int aux = int(std::rand() % nSpaces);
+    //std::cerr << aux << std::endl;
+    sf::Vector2f aux2f = intToCoords(freeSpacesVect[aux]);
+    //std::cerr << aux2f.x << ", " << aux2f.y << std::endl;
+    setPosition(aux2f);
 }
