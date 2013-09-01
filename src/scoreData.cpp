@@ -21,7 +21,6 @@
 #include "scoreData.h"
 
 #include <fstream>
-#include <iostream>
 #include <algorithm>
 
 using std::ifstream;

@@ -63,9 +63,9 @@ bool Pj::update(Food& food, Score& score) {
     actualDir = nextDir;
 
     if(body.front()->getPosition() == food.getPosition()) {
-        score.addPoints(10);
-        grow();
         food.eat();
+        grow();
+        score.addPoints(10);
 
         if(!isFat && score.getPoints() >= 1000) {
             isFat = true;

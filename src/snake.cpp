@@ -26,7 +26,6 @@ Snake::Snake()
       highScoreScreen(window, scoreData),
       gameScreen(window, scoreData)
 {
-    window.setFramerateLimit(60u);
     std::srand(std::time(nullptr));
 }
 

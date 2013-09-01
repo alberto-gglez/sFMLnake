@@ -43,7 +43,7 @@ inline unsigned int coordsToInt(const sf::Vector2f& v) {
 }
 
 inline sf::Vector2f intToCoords(unsigned int i) {
-    return sf::Vector2f(float(i / 16) * 40.f + 20.f, float(i % 12) * 40.f + 20.f);
+    return sf::Vector2f(float(i % 16) * 40.f + 20.f, float(i / 16) * 40.f + 20.f);
 }
 
 #endif
